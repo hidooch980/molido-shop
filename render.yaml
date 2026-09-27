@@ -9,8 +9,28 @@ services:
     envVars:
       - key: PORT
         value: 10000
+      - key: DB_TYPE
+        value: postgres
+      - key: DB_HOST
+        fromDatabase:
+          name: molido-accounting-db
+          property: host
+      - key: DB_PORT
+        fromDatabase:
+          name: molido-accounting-db
+          property: port
+      - key: DB_USERNAME
+        fromDatabase:
+          name: molido-accounting-db
+          property: user
+      - key: DB_PASSWORD
+        fromDatabase:
+          name: molido-accounting-db
+          property: password
       - key: DB_DATABASE
-        value: /tmp/molido-accounting.sqlite
+        fromDatabase:
+          name: molido-accounting-db
+          property: database
 
   - type: web
     name: molido-accounting-frontend
@@ -26,3 +46,9 @@ services:
       - type: rewrite
         source: /*
         destination: /index.html
+
+databases:
+  - name: molido-accounting-db
+    plan: free
+    databaseName: molido_accounting
+    user: molido

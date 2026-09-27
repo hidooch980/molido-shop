@@ -35,7 +35,9 @@ npm run dev
    dashboard, then trigger a redeploy of the frontend so the build picks it
    up.
 
-Note: the free plan has no persistent disk, so the SQLite file under `/tmp`
-resets on every redeploy/restart. For real data, switch to a managed
-Postgres database (Render also offers a free Postgres instance) via the
-`DB_TYPE=postgres` env vars above.
+The blueprint also provisions a free Render Postgres database
+(`molido-accounting-db`) and wires the backend to it automatically via
+`DB_TYPE=postgres` + `fromDatabase` env vars, so data persists across
+restarts and redeploys (unlike the local SQLite default). Render's free
+Postgres plan expires after 30 days unless upgraded — see Render's docs
+before relying on it long-term.
