@@ -7,6 +7,8 @@ export default defineConfig({
     proxy: {
       '/accounts': 'http://localhost:3000',
       '/journal-entries': 'http://localhost:3000',
+      '/customers': 'http://localhost:3000',
+      '/leads': 'http://localhost:3000',
     },
   },
 });

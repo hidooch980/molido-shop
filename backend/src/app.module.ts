@@ -1,6 +1,7 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule, TypeOrmModuleOptions } from '@nestjs/typeorm';
 import { AccountingModule } from './accounting/accounting.module';
+import { CrmModule } from './crm/crm.module';
 
 const dbConfig: TypeOrmModuleOptions =
   process.env.DB_TYPE === 'postgres'
@@ -23,6 +24,6 @@ const dbConfig: TypeOrmModuleOptions =
       };
 
 @Module({
-  imports: [TypeOrmModule.forRoot(dbConfig), AccountingModule],
+  imports: [TypeOrmModule.forRoot(dbConfig), AccountingModule, CrmModule],
 })
 export class AppModule {}

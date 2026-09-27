@@ -28,6 +28,24 @@ export interface CreateJournalLineInput {
   credit: number;
 }
 
+export type LeadStage = 'new' | 'contacted' | 'qualified' | 'won' | 'lost';
+
+export interface Customer {
+  id: string;
+  name: string;
+  phone?: string;
+  email?: string;
+  company?: string;
+}
+
+export interface Lead {
+  id: string;
+  customer: Customer;
+  title: string;
+  stage: LeadStage;
+  value: number;
+}
+
 const BASE_URL = import.meta.env.VITE_API_URL ?? '';
 
 async function request<T>(path: string, init?: RequestInit): Promise<T> {
@@ -52,4 +70,12 @@ export const api = {
     description: string;
     lines: CreateJournalLineInput[];
   }) => request<JournalEntry>('/journal-entries', { method: 'POST', body: JSON.stringify(input) }),
+  listCustomers: () => request<Customer[]>('/customers'),
+  createCustomer: (input: { name: string; phone?: string; email?: string; company?: string }) =>
+    request<Customer>('/customers', { method: 'POST', body: JSON.stringify(input) }),
+  listLeads: () => request<Lead[]>('/leads'),
+  createLead: (input: { customerId: string; title: string; value?: number }) =>
+    request<Lead>('/leads', { method: 'POST', body: JSON.stringify(input) }),
+  updateLeadStage: (id: string, stage: LeadStage) =>
+    request<Lead>(`/leads/${id}/stage`, { method: 'PATCH', body: JSON.stringify({ stage }) }),
 };
